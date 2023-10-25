@@ -20,9 +20,7 @@ HoopGlow is an LED lighting display for basketball backboards, enhancing the gam
 
 ### Prerequisites
 
-List what they need and how to install them:
-
-- Software tools: if you have a working dev environment, you should be able to get up to speed.
+- Software tools: if you have a working dev environment, you should be able to get up to speed once the installation instructions are up.
 - Hardware components: show up at the Makerspace (AC03 - 007) to get your hands on some of the LED strips and a testing jig very kindly set up in one of our community mentor's dorm room. If you need a controller, come find us.
 
 ### Installing

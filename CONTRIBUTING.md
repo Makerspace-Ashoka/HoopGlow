@@ -11,9 +11,21 @@ We love your input! We want to make contributing to this project as easy and tra
 
 We use GitHub to host code, to track issues and feature requests, as well as accept pull requests.
 
-## We Use a Two-Branches System
+## Branch Organisation
 
-Pull requests must be sent to the `development` branch and, once approved, are merged into `main` by the maintainers.
+Here's an overview of our branch structure and the purpose each one serves in our development workflow:
+
+- **main**: The primary branch containing the stable release of the project. All feature and bug fix branches are merged into `main` after thorough testing.
+
+- **development**: Our active development branch. All features and fixes are merged here for integration testing. Once stable, changes are merged into the `main` branch.
+
+- **feature/** branches: Specific branches created for developing new features or significant updates. Name these branches with the prefix `feature/`, followed by a short, descriptive name related to the update, like `feature/new-light-sequence` or `feature/3d-bracket-design`. Upon completion and review, feature branches are merged into the `development` branch.
+
+- **docs**: Reserved for updates and maintenance of project documentation. Significant documentation changes are reviewed here before merging with the main content.
+
+- **hotfix/** branches: Used for urgent fixes, these branches are based on `main` and are intended to address critical bugs in the stable release. After resolving the issue, they are merged back into both `main` and `development` to ensure consistency.
+
+Please follow these guidelines for branch interactions and keep communications clear when preparing pull requests. This ensures a streamlined, efficient development process beneficial to all contributors.
 
 ## Any contributions you make will be under the MIT Software License
 
@@ -26,10 +38,10 @@ Please send a [GitHub Pull Request to HoopGlow](https://github.com/Makerspace-As
 Always write a clear log message for your commits. One-line messages are fine for small changes, but bigger changes should look like this:
 
 ```sh
-git commit -m "A brief summary of the commit" -m "A paragraph describing what changed and its impact."
+git commit -m "Refactor subsystem X for readability" -m "\nThis simplifies the implementation of X and separates concerns for future enhancements. It primarily involves refactoring Y to improve modularity and prepare for the subsequent integration of feature Z."
 ```
 
-The idea is for our commits to NOT end up [here](https://twitter.com/gitlost).
+The idea is for our commits to NOT end up [here](https://twitter.com/gitlost). Refer to our [commit guidelines](https://github.com/Makerspace-Ashoka/HoopGlow#git-commit-guidelines) for more information.
 
 ## Coding Conventions
 
