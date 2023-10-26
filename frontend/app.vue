@@ -1,15 +1,21 @@
 <template>
   <div class="container">
-    <div class="countdown-card">
+    <!-- Shotclock Timer -->
+    <div class="timer">
       <span class="countdown">{{ timeRemaining }}s</span>
     </div>
-    <div class="button-container">
-      <button class="btn glow-on-hover start-button" @click="handleShotClock">{{ shotClockLabel }}</button>
-      <div class="points-container">
-        <button class="btn glow-on-hover" @click="sendRequest('api/dummy1')">1 Point</button>
-        <button class="btn glow-on-hover" @click="sendRequest('api/dummy2')">2 Points</button>
-        <button class="btn glow-on-hover" @click="sendRequest('api/dummy3')">3 Points</button>
-      </div>
+
+     <!-- Timer Controls -->
+     <div class="controls">
+      <button class="control-btn start" @click="handleShotClock">{{ shotClockLabel }}</button>
+      <button class="control-btn reset">Reset</button>
+    </div>
+
+    <!-- Score Buttons -->
+    <div class="score-buttons">
+      <button class="score-btn" @click="sendRequest('api/dummy1')">1 Point</button>
+      <button class="score-btn" @click="sendRequest('api/dummy2')">2 Points</button>
+      <button class="score-btn" @click="sendRequest('api/dummy3')">3 Points</button>
     </div>
   </div>
 </template>
@@ -94,91 +100,102 @@ const sendRequest = async (apiCommand) => {
 
 <style scoped>
 :root {
-  --btn-start-color: #8842d5;
-  --btn-point1-color: #5aa1d6;
-  --btn-point2-color: #5ad6a4;
-  --btn-point3-color: #d6b55a;
+  --btn-start-color: #e76f51;
+  --btn-point1-color: #f4a261;
+  --btn-point2-color: #775253;
+  --btn-point3-color: #2a9d8f;
   --btn-hover-glow: rgba(255, 255, 255, 0.3);
 }
 
 .container {
   display: flex;
-  flex-direction: column;  /* align child elements vertically */
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   height: 100vh;
+  font-family: 'Arial', sans-serif;
 }
 
-.countdown-card {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-  background-color: #264653;  /* For visibility against white background */
+/* Shotclock Timer */
+.timer {
+  margin-bottom: 2rem;
+  background-color: #2F3E50;
   border-radius: 10px;
-  width: 80%;
-  max-width: 800px;
-  margin-bottom: 2rem; /* Provide some space between the card and the button container */
+  padding: 1rem 2rem;
 }
 
 .countdown {
   font-size: 3rem;
-  margin-bottom: 1rem;
-  color: #fff;
+  color: #FFFFFF;
 }
 
-.button-container {
-  width: 80%;
-  max-width: 800px;
+/* Timer Controls */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
-.btn {
-  padding: 1rem 2rem;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+.control-btn {
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
   border: none;
   border-radius: 5px;
-  font-size: 1rem;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-  color: #fff;
+  transition: all 0.3s ease;
 }
 
-.btn.glow-on-hover:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+.control-btn.start {
+  background-color: #E63946;
+  color: #FFFFFF;
 }
 
-.start-button {
-  background-color: #e76f51;
-  width: 100%;
+.control-btn.reset {
+  background-color: #F1FAEE;
+  color: #1D3557;
 }
 
-.points-container {
+.control-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Score Buttons */
+.score-buttons {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 1rem;
 }
 
-.points-container .btn:nth-of-type(1) {
-  background-color: #f4a261;
+.score-btn {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #FFFFFF;
 }
 
-.points-container .btn:nth-of-type(2) {
-  background-color: #775253;
+.score-btn:nth-child(1) {
+  background-color: #FF9B54;
 }
 
-.points-container .btn:nth-of-type(3) {
-  background-color: #2a9d8f;
+.score-btn:nth-child(2) {
+  background-color: #8E5572;
 }
 
-@media (max-width: 600px) {
-  .points-container {
+.score-btn:nth-child(3) {
+  background-color: #3A9D8F;
+}
+
+.score-btn:hover {
+  transform: translateY(-5px);
+}
+
+@media (max-width: 480px) {
+  .score-buttons {
     flex-direction: column;
-  }
-
-  .btn {
-    width: 100%;
   }
 }
 </style>
