@@ -1,0 +1,13 @@
+html, body {
+    height: 100%;
+    background-color: #282c34; /* Dark mode color; change based on preference */
+    /* Dot matrix background effect */
+    background-image: radial-gradient(#777 2px, transparent 2px),
+                      radial-gradient(#777 2px, transparent 2px);
+    background-position: 0 0, 25px 25px;
+    background-size: 50px 50px;
+  }
+  
+  /* Other styles, animations, and glowing effects come here. */
+  /* Use classes to switch between dark and light modes. */
+  
