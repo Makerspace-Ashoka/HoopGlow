@@ -8,7 +8,7 @@
      <!-- Timer Controls -->
      <div class="controls">
       <button class="control-btn start" @click="handleShotClock">{{ shotClockLabel }}</button>
-      <button class="control-btn reset">Reset</button>
+      <button class="control-btn reset" @click="resetShotClock">Reset</button>
     </div>
 
     <!-- Score Buttons -->
@@ -42,6 +42,13 @@ const handleShotClock = () => {
     startTimer();
     shotClockLabel.value = 'Pause';
   }
+};
+
+const resetShotClock = () => {
+  activeTimer.value = false;
+  clearInterval(interval.value);
+  timeRemaining.value = 14;
+  shotClockLabel.value = 'Start';
 };
 
 // Start the countdown timer
