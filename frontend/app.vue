@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <div class="countdown">{{ timeRemaining }}</div>
     <div class="button-container">
       <button class="btn glow-on-hover start-button" @click="handleShotClock">{{ shotClockLabel }}</button>
       <div class="points-container">
@@ -17,31 +18,42 @@ import { ref } from 'vue';
 // Reactive references
 const activeTimer = ref(false);
 const timeRemaining = ref(14); // seconds
+const interval = ref(null); // use a single instance of interval
 const shotClockLabel = ref('Start');
 
 // Handle the shotclock on first button press
 const handleShotClock = () => {
-  if (activeTimer.value) {
-    resetTimer();
+  if (!activeTimer.value && timeRemaining.value === 14) {
+    startTimer();
+    shotClockLabel.value = 'Pause';
+  } else if (activeTimer.value) {
+    activeTimer.value = false;
+    shotClockLabel.value = 'Resume';
+    clearInterval(interval.value); // Clear the interval when pausing
   } else {
     startTimer();
-    shotClockLabel.value = 'Reset';
+    shotClockLabel.value = 'Pause';
   }
 };
 
 // Start the countdown timer
 const startTimer = () => {
+  if (interval.value) {
+    clearInterval(interval.value); // Clear any existing interval
+  }
+  
   activeTimer.value = true;
   const countdown = () => {
-    if (timeRemaining.value > 0) {
+    if (timeRemaining.value > 0 && activeTimer.value) {
       timeRemaining.value--;
-    } else {
-      clearInterval(interval);
+    } else if (timeRemaining.value <= 0) {
+      clearInterval(interval.value);
       sendRequest('api/dummyend');
       resetTimer();
     }
   };
-  const interval = setInterval(countdown, 1000);
+  
+  interval.value = setInterval(countdown, 1000);
 };
 
 // Reset the timer
