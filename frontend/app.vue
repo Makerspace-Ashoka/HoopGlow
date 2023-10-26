@@ -1,8 +1,13 @@
 <template>
   <div class="container">
+    <!-- Game Timer -->
+    <!-- <div class="game-timer">
+      <span class="countdown">{{ gameTimerRemaining }}m</span>
+    </div> -->
+
     <!-- Shotclock Timer -->
     <div class="timer">
-      <span class="countdown">{{ timeRemaining }}s</span>
+      <span class="countdown">{{ shotClockTimerRemaining }}s</span>
     </div>
 
      <!-- Timer Controls -->
@@ -25,13 +30,13 @@ import { ref } from 'vue';
 
 // Reactive references
 const activeTimer = ref(false);
-const timeRemaining = ref(14); // seconds
+const shotClockTimerRemaining = ref(14); // seconds
 const interval = ref(null); // use a single instance of interval
 const shotClockLabel = ref('Start');
 
 // Handle the shotclock on first button press
 const handleShotClock = () => {
-  if (!activeTimer.value && timeRemaining.value === 14) {
+  if (!activeTimer.value && shotClockTimerRemaining.value === 14) {
     startTimer();
     shotClockLabel.value = 'Pause';
   } else if (activeTimer.value) {
@@ -52,7 +57,7 @@ const pauseTimer = () => {
 
 const resetShotClock = () => {
   pauseTimer();
-  timeRemaining.value = 14;
+  shotClockTimerRemaining.value = 14;
   shotClockLabel.value = 'Start';
 };
 
@@ -69,9 +74,9 @@ const startTimer = () => {
   
   activeTimer.value = true;
   const countdown = () => {
-    if (timeRemaining.value > 0 && activeTimer.value) {
-      timeRemaining.value--;
-    } else if (timeRemaining.value <= 0) {
+    if (shotClockTimerRemaining.value > 0 && activeTimer.value) {
+      shotClockTimerRemaining.value--;
+    } else if (shotClockTimerRemaining.value <= 0) {
       clearInterval(interval.value);
       sendRequest('api/dummyend');
       resetTimer();
@@ -84,7 +89,7 @@ const startTimer = () => {
 // Reset the timer
 const resetTimer = () => {
   activeTimer.value = false;
-  timeRemaining.value = 14;
+  shotClockTimerRemaining.value = 14;
   shotClockLabel.value = 'Start';
 };
 
