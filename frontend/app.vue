@@ -13,9 +13,9 @@
 
     <!-- Score Buttons -->
     <div class="score-buttons">
-      <button class="score-btn" @click="sendRequest('api/dummy1')">1 Point</button>
-      <button class="score-btn" @click="sendRequest('api/dummy2')">2 Points</button>
-      <button class="score-btn" @click="sendRequest('api/dummy3')">3 Points</button>
+      <button class="score-btn" @click="scoreAndPause(1)">1 Point</button>
+      <button class="score-btn" @click="scoreAndPause(2)">2 Points</button>
+      <button class="score-btn" @click="scoreAndPause(3)">3 Points</button>
     </div>
   </div>
 </template>
@@ -44,11 +44,21 @@ const handleShotClock = () => {
   }
 };
 
-const resetShotClock = () => {
+const pauseTimer = () => {
   activeTimer.value = false;
+  shotClockLabel.value = 'Resume';
   clearInterval(interval.value);
+};
+
+const resetShotClock = () => {
+  pauseTimer();
   timeRemaining.value = 14;
   shotClockLabel.value = 'Start';
+};
+
+const scoreAndPause = async (payload) => {
+  pauseTimer();
+  await sendRequest(`api/dummy${payload}`);
 };
 
 // Start the countdown timer
