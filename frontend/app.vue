@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <div class="countdown">{{ timeRemaining }}</div>
+    <div class="countdown-card">
+      <span class="countdown">{{ timeRemaining }}s</span>
+    </div>
     <div class="button-container">
       <button class="btn glow-on-hover start-button" @click="handleShotClock">{{ shotClockLabel }}</button>
       <div class="points-container">
@@ -101,9 +103,28 @@ const sendRequest = async (apiCommand) => {
 
 .container {
   display: flex;
+  flex-direction: column;  /* align child elements vertically */
   justify-content: center;
   align-items: center;
   height: 100vh;
+}
+
+.countdown-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background-color: #264653;  /* For visibility against white background */
+  border-radius: 10px;
+  width: 80%;
+  max-width: 800px;
+  margin-bottom: 2rem; /* Provide some space between the card and the button container */
+}
+
+.countdown {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #fff;
 }
 
 .button-container {
@@ -113,7 +134,8 @@ const sendRequest = async (apiCommand) => {
 
 .btn {
   padding: 1rem 2rem;
-  margin: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
   border: none;
   border-radius: 5px;
   font-size: 1rem;
@@ -128,7 +150,7 @@ const sendRequest = async (apiCommand) => {
 }
 
 .start-button {
-  background-color: #8842d5;
+  background-color: #e76f51;
   width: 100%;
 }
 
@@ -139,15 +161,15 @@ const sendRequest = async (apiCommand) => {
 }
 
 .points-container .btn:nth-of-type(1) {
-  background-color: #5aa1d6;
+  background-color: #f4a261;
 }
 
 .points-container .btn:nth-of-type(2) {
-  background-color: #5ad6a4;
+  background-color: #775253;
 }
 
 .points-container .btn:nth-of-type(3) {
-  background-color: #d6b55a;
+  background-color: #2a9d8f;
 }
 
 @media (max-width: 600px) {
