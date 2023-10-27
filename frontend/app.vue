@@ -9,6 +9,7 @@
       <div class="section-body">
         <button class="btn" style="background-color: #5D2A42;  color: #fbf5f3;">1 Point</button>
         <button class="btn" style="background-color: #3a9d8f;  color: #fbf5f3;">2 Points</button>
+        <button class="btn" style="background-color: #D9F9A5;">3 Points</button>
       </div>
     </div>
     <div class="section">
@@ -18,13 +19,13 @@
           <input type="checkbox">
           <span class="slider"></span>
         </label>
+        <button class="btn start-powerplay">Start</button>
       </div>
     </div>
     <div class="section">
       <span class="section-title">Gameplay</span>
       <div class="section-body">
         <button class="btn" style="background-color: #E76F51; color: #fbf5f3;">Buzzer</button>
-        <button class="btn" style="background-color: #D9F9A5;">Halftime</button>
       </div>
     </div>
     <div class="section">
@@ -116,6 +117,11 @@ export default {
 .btn:hover {
   background-color: #f0f0f0;
   transform: translateY(-5px);
+}
+
+.start-powerplay {
+  background-color: #D1F5BE;
+  margin-left: 2rem;
 }
 
 .switch {
