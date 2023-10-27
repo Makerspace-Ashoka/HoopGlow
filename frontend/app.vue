@@ -205,9 +205,17 @@ watch(timer, (newVal) => {
   height: 100px;
   margin: 0 auto;
   background-color: #2f3e50;
-  border: 1px solid #ddd;
   border-radius: 10px;
   padding: 1rem 2rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.monitor-text {
+  font-size: 3rem;
+  color: #fbf5f3;
 }
 
 .section-body {
