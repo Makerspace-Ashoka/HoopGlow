@@ -9,85 +9,101 @@
     <div class="section">
       <span class="section-title">Points</span>
       <div class="section-body">
-        <button class="btn" style="background-color: #5D2A42;  color: #fbf5f3;" @click="handleButton('1Point')">1 Point</button>
-        <button class="btn" style="background-color: #3a9d8f;  color: #fbf5f3;" @click="handleButton('2Point')">2 Points</button>
-        <button class="btn" style="background-color: #D9F9A5;" @click="handleButton('3Point')">3 Points</button>
+        <button class="btn" style="background-color: #5D2A42;  color: #fbf5f3;" @click="callWLED('1Point')">1 Point</button>
+        <button class="btn" style="background-color: #3a9d8f;  color: #fbf5f3;" @click="callWLED('2Point')">2 Points</button>
+        <button class="btn" style="background-color: #D9F9A5;" @click="callWLED('3Point')">3 Points</button>
       </div>
     </div>
     <div class="section">
       <span class="section-title">Powerplay</span>
       <div class="section-body">
         <label class="switch">
-          <input type="checkbox">
+          <input type="checkbox" v-model="isInputChecked">
           <span class="slider"></span>
         </label>
-        <button class="btn start-powerplay">Start</button>
+        <button class="btn start-powerplay" @click="handlePowerplay">{{ powerPlayBtnLabel }}</button>
       </div>
     </div>
     <div class="section">
       <span class="section-title">Gameplay</span>
       <div class="section-body">
-        <button class="btn" style="background-color: #E76F51; color: #fbf5f3;" @click="handleButton('buzzer')">Buzzer</button>
+        <button class="btn" style="background-color: #E76F51; color: #fbf5f3;" @click="handleBuzzer">Buzzer</button>
       </div>
     </div>
     <div class="section">
       <span class="section-title">Celebrations</span>
       <div class="section-body">
-        <button class="btn" style="background-color: #FFD639;" @click="handleButton('1Effect')">Effect 1</button>
-        <button class="btn" style="background-color: #FFD639;" @click="handleButton('2Effect')">Effect 2</button>
-        <button class="btn" style="background-color: #FFD639;" @click="handleButton('3Effect')">Effect 3</button>
+        <button class="btn" style="background-color: #FFD639;" @click="callWLED('1Effect')">Effect 1</button>
+        <button class="btn" style="background-color: #FFD639;" @click="callWLED('2Effect')">Effect 2</button>
+        <button class="btn" style="background-color: #FFD639;" @click="callWLED('3Effect')">Effect 3</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, computed, watch } from 'vue';
 
-const powerplayType = ref('1');
+const powerPlayBtnLabel = ref('Start');
 const timer = ref(60);
 const isPowerplayRunning = ref(false);
 
-const handleButton = async (buttonType) => {
+// temp variable tied to powerplay slide switch
+const isInputChecked = ref(false);
+const powerplayType = computed(() => isInputChecked.value ? 2: 1);
+
+const callWLED = async (buttonType) => {
   let payload = {};
   switch(buttonType) {
     case '1Point':
       // We will never come here in powerplay
-      payload = {"playlist":{"ps":[1,2,4,3],"dur":[10,20,5,100],"transition":[7,7,7,7],"repeat":0,"r":false,"end":0},"on":true};
+      // 1point playlist
+      payload = { "pl":  101};
       break;
     case '2Point':
-      payload = {};
-      if(isPowerplayRunning.value) {
-        payload = {"playlist":{"ps":[7,6,4,3],"dur":[10,20,5,100],"transition":[7,7,7,7],"repeat":0,"r":false,"end":0},"on":true};
+      if(isPowerplayRunning.value && powerplayType === 2) {
+        // powerplay 2, 2point playlist
+        payload = { "pl":  122};
+      } else if(isPowerplayRunning.value && powerplayType === 1) {
+        // powerplay 1, 2point playlist
+        payload = { "pl":  112};
       } else {
-        // TODO: if powerplay is running then set segment colour after wipe
-        payload = {};
+        // 2point playlist
+        payload = { "pl":  102};
       }
       break;
     case '3Point':
-      // We only come here in powerplay
-      payload = {"playlist":{"ps":[10,9,4,3],"dur":[10,20,10,100],"transition":[7,7,7,7],"repeat":0,"r":false,"end":0},"on":true};
-      break;
-    case 'buzzer':
-      payload = {"playlist":{"ps":[12,13],"dur":[130,70],"transition":[7,7],"repeat":0,"r":false,"end":0},"on":true};
+      if(isPowerplayRunning.value && powerplayType === 2) {
+        // powerplay 2, 3point playlist
+        payload = { "pl":  123};
+      } else if(isPowerplayRunning.value && powerplayType === 1) {
+        // powerplay 1, 3point playlist
+        payload = { "pl":  113};
+      } else {
+        // 3point playlist
+        payload = { "pl":  103};
+      }
       break;
     case '1Effect':
-      payload = {"on":true,"bri":197,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":60,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"col":[[99,255,250],[191,255,54],[175,255,173]],"fx":60,"sx":220,"ix":255,"pal":0,"sel":true,"rev":false,"mi":false},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]};
+      payload = { "pl":  201};
       break;
     case '2Effect':
-      payload = {"on":true,"bri":197,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":60,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"col":[[99,255,250],[191,255,54],[175,255,173]],"fx":60,"sx":220,"ix":255,"pal":0,"sel":true,"rev":false,"mi":false},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]};
+      payload = { "pl":  202};
       break;
     case '3Effect':
-      payload = {"on":true,"bri":197,"transition":7,"mainseg":0,"seg":[{"id":0,"start":0,"stop":60,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"col":[[99,255,250],[191,255,54],[175,255,173]],"fx":60,"sx":220,"ix":255,"pal":0,"sel":true,"rev":false,"mi":false},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]};
+      payload = { "pl":  203};
       break;
-    // ... add cases for other buttons ...
   }
-  // Send API call with the payload
+  // send API call with the payload
   await sendPOSTRequest("state", JSON.stringify(payload));
-  // Example: fetch('API_ENDPOINT', { method: 'POST', body: JSON.stringify(payload) });
 };
 
-const startPowerplay = () => {
+const handlePowerplay = async () => {
+  payload = {};
+  if(powerplayType.value === 1) {
+    // Set colour to purple
+    payload = {};
+  }
   // Send API call on start keypress
   // Example: fetch('API_ENDPOINT_START', { method: 'POST', body: JSON.stringify({ powerplayType: powerplayType.value }) });
 
@@ -104,6 +120,11 @@ const startPowerplay = () => {
     }
   }, 1000);
 };
+
+const handleBuzzer = async () => {
+  // buzzer playlist on WLED
+  payload = { "pl":  200};
+}
 
 // Function to send API requests using fetch
 const sendPOSTRequest = async (apiCommand, payload) => {
@@ -124,6 +145,7 @@ const sendPOSTRequest = async (apiCommand, payload) => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
+    // TODO: delete these lines before prod
     const data = await response.json();
     console.log(data);
   } catch (error) {
