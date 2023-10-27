@@ -107,7 +107,7 @@ const startPowerplay = () => {
 
 // Function to send API requests using fetch
 const sendPOSTRequest = async (apiCommand, payload) => {
-  const IP = "192.168.0.1";
+  const IP = "192.168.20.139";
   try {
     // replace with your actual server URL
     const url = `http://${IP}/json/${apiCommand}`;
