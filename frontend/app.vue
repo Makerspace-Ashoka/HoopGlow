@@ -54,7 +54,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* background-color: #FBFEF9; */
+  background-color: #FBFEF9;
   padding: 20px;
   max-width: 90%;
   margin: 0 auto;
@@ -74,7 +74,6 @@ export default {
 }
 
 .section-title {
-  font-family: 'Nunito', sans-serif;
   font-weight: 700;
   flex: 1;
   font-size: 24px;
@@ -132,21 +131,36 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: purple;
     border-radius: 34px;
     transition: .4s;
 }
 
-.slider:before {
+.slider:before{
     position: absolute;
-    content: "1";
     height: 26px;
     width: 26px;
-    left: 4px;
-    bottom: 4px;
+    line-height: 26px;
     background-color: white;
     border-radius: 50%;
     transition: .4s;
+    content: "";
+}
+
+.slider:before {
+    display: flex;  /* Use flexbox to center the content */
+    align-items: center;  /* Vertical alignment */
+    justify-content: center; 
+    content: "1";
+    left: 4px;
+    bottom: 4px;
+}
+
+.slider:after {
+    content: "2";
+    right: 4px;
+    bottom: 4px;
+    opacity: 0; /* Hide it initially */
 }
 
 input:checked + .slider {
@@ -154,8 +168,12 @@ input:checked + .slider {
 }
 
 input:checked + .slider:before {
-    transform: translateX(56px);
+    left: 60px;
     content: "2";
+}
+
+input:checked + .slider:after {
+    opacity: 0; /* Show it when checked */
 }
 
 /* Adjustments for responsiveness can be added below */
