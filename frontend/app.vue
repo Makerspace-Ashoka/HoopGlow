@@ -153,4 +153,18 @@ input:checked + .slider:before {
     padding: 8px 16px;
   }
 }
+
+/* For tablet devices */
+@media (max-width: 768px) {
+  .container {
+      max-width: 95%;
+  }
+}
+
+/* For mobile devices */
+@media (max-width: 480px) {
+  .container {
+      max-width: 100%;
+  }
+}
 </style>
