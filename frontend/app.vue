@@ -13,14 +13,10 @@
     </div>
     <div class="section">
       <span class="section-title">Powerplay</span>
-      <div>
-        <label>
-          <input type="radio" name="powerplay" value="1" v-model="powerplayChoice" /> 1
-        </label>
-        <label>
-          <input type="radio" name="powerplay" value="2" v-model="powerplayChoice" /> 2
-        </label>
-      </div>
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider"></span>
+      </label>
     </div>
     <div class="section">
       <span class="section-title">Gameplay</span>
@@ -99,6 +95,49 @@ export default {
 
 .btn:hover {
   background-color: #f0f0f0;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 90px;
+    height: 34px;
+}
+
+.switch input { 
+    display:none;
+}
+
+.slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 34px;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "1";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    border-radius: 50%;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(56px);
+    content: "2";
 }
 
 /* Adjustments for responsiveness can be added below */
