@@ -3,7 +3,7 @@
     <div class="section status-monitor">
       <span class="section-title" id="status-monitor">Status Monitor</span>
       <div class="monitor-card">
-        <div class="monitor-text">{{ timer }}</div>
+        <div class="monitor-text">{{ powerplayTimer }}</div>
       </div>
     </div>
     <div class="section">
@@ -48,10 +48,11 @@ import { ref, computed, watch } from 'vue';
 const powerplayBtnLabel = ref('Start');
 const isInputChecked = ref(false); // temp tied to powerplay slide switch
 
+// Note: computed properties don't need .value for accessing later
 const powerplayType = computed(() => isInputChecked.value ? 2: 1);
 const powerplayInterval = ref(null); // use a single instance of interval
 const isPowerplayRunning = ref(false);
-const timer = ref(60);
+const powerplayTimer = ref(60);
 
 const callWLED = async (buttonType) => {
   let payload = {};
@@ -115,8 +116,8 @@ const handlePowerplay = async () => {
     // start 60s countdown
     isPowerplayRunning.value = true;
     const countdown = () => {
-      if (timer.value > 0 && isPowerplayRunning.value) {
-        timer.value--;
+      if (powerplayTimer.value > 0 && isPowerplayRunning.value) {
+        powerplayTimer.value--;
       } // stopping interval is handled in watch()
     };
     
@@ -130,7 +131,7 @@ const handlePowerplay = async () => {
 const resetPowerplayTimer = () => {
   clearInterval(powerplayInterval.value); // highly unlikely but clear any running intervals
   isPowerplayRunning.value = false;
-  timer.value = 60;
+  powerplayTimer.value = 60;
 
   // UI changes
   powerplayBtnLabel.value = "Start";
@@ -170,7 +171,7 @@ const sendPOSTRequest = async (apiCommand, payload) => {
   }
 };
 
-watch(timer, (newVal) => {
+watch(powerplayTimer, (newVal) => {
   if (newVal === 0) {
     resetPowerplayTimer();
   }
