@@ -6,28 +6,30 @@
     </div>
     <div class="section">
       <span class="section-title">Points</span>
-      <div>
+      <div class="section-body">
         <button class="btn" style="background-color: #5D2A42;  color: #fbf5f3;">1 Point</button>
         <button class="btn" style="background-color: #3a9d8f;  color: #fbf5f3;">2 Points</button>
       </div>
     </div>
     <div class="section">
       <span class="section-title">Powerplay</span>
-      <label class="switch">
-        <input type="checkbox">
-        <span class="slider"></span>
-      </label>
+      <div class="section-body">
+        <label class="switch">
+          <input type="checkbox">
+          <span class="slider"></span>
+        </label>
+      </div>
     </div>
     <div class="section">
       <span class="section-title">Gameplay</span>
-      <div>
+      <div class="section-body">
         <button class="btn" style="background-color: #E76F51; color: #fbf5f3;">Buzzer</button>
         <button class="btn" style="background-color: #D9F9A5;">Halftime</button>
       </div>
     </div>
     <div class="section">
       <span class="section-title">Celebrations</span>
-      <div>
+      <div class="section-body">
         <button class="btn" style="background-color: #FFD639;">Effect 1</button>
         <button class="btn" style="background-color: #FFD639;">Effect 2</button>
         <button class="btn" style="background-color: #FFD639;">Effect 3</button>
@@ -72,6 +74,8 @@ export default {
   font-family: 'Nunito', sans-serif;
   font-weight: 700;
   flex: 1;
+  font-size: 24px;
+  padding-left: 10%;
 }
 
 #status-monitor {
@@ -86,6 +90,10 @@ export default {
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 1rem 2rem;
+}
+
+.section-body {
+  padding-right: 10%
 }
 
 .btn {
