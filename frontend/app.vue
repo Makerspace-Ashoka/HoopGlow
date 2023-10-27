@@ -61,7 +61,7 @@ export default {
   flex-direction: column;
   align-items: center;
   max-width: 90%;
-  margin: 0 auto;
+  margin: 10vh 8vw;
   padding-top: 5%;
   padding-left: 10%;
   padding-right: 10%;
