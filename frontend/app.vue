@@ -89,14 +89,18 @@ export default {
 
 .btn {
   margin: 5px;
-  padding: 10px 20px;
+  padding: 1rem 2rem;
   border: none;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  border-radius: 10px;
+  font-size: 1.1rem;
 }
 
 .btn:hover {
   background-color: #f0f0f0;
+  transform: translateY(-5px);
 }
 
 .switch {
