@@ -51,11 +51,15 @@ export default {
 
 <style scoped>
 .container {
+  background: rgba(255,255,255, 0.1);
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* Optional: Adds depth */
+    backdrop-filter: blur(10px);  /* Key to the glass effect */
+    border: 1px solid rgba(255, 255, 255, 0.2);  /* Slight border to define the container */
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #FBFEF9;
-  padding: 20px;
   max-width: 90%;
   margin: 0 auto;
   padding-top: 5%;
