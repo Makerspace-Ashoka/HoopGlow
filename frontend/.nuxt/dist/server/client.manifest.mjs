@@ -1,0 +1,1 @@
+export { default } from "file:///Users/vieuler/Documents/wd/mkspc/HoopGlow/frontend/node_modules/@nuxt/vite-builder/dist/runtime/client.manifest.mjs"
