@@ -54,10 +54,13 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #FBFEF9;
+  /* background-color: #FBFEF9; */
   padding: 20px;
   max-width: 90%;
   margin: 0 auto;
+  padding-top: 5%;
+  padding-left: 10%;
+  padding-right: 10%;
 }
 
 .section {
