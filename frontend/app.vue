@@ -1,18 +1,18 @@
 <template>
   <div class="container">
     <div class="section status-monitor">
-      <span class="section-title">STATUS MONITOR</span>
+      <span class="section-title" id="status-monitor">Status Monitor</span>
       <div class="monitor-card"></div>
     </div>
     <div class="section">
-      <span class="section-title">POINTS</span>
+      <span class="section-title">Points</span>
       <div>
         <button class="btn">1 Point</button>
         <button class="btn">2 Points</button>
       </div>
     </div>
     <div class="section">
-      <span class="section-title">POWERPLAY</span>
+      <span class="section-title">Powerplay</span>
       <div>
         <label>
           <input type="radio" name="powerplay" value="1" v-model="powerplayChoice" /> 1
@@ -23,14 +23,14 @@
       </div>
     </div>
     <div class="section">
-      <span class="section-title">GAMEPLAY</span>
+      <span class="section-title">Gameplay</span>
       <div>
-        <button class="btn">BUZZER</button>
-        <button class="btn">HALFTIME</button>
+        <button class="btn">Buzzer</button>
+        <button class="btn">Halftime</button>
       </div>
     </div>
     <div class="section">
-      <span class="section-title">CELEBRATIONS</span>
+      <span class="section-title">Celebrations</span>
       <div>
         <button class="btn">Effect 1</button>
         <button class="btn">Effect 2</button>
@@ -75,11 +75,18 @@ export default {
   flex: 1;
 }
 
+#status-monitor {
+  display: none;
+}
+
 .monitor-card {
-  width: 80%;
+  width: 50%;
   height: 100px;
-  background-color: #f4f4f4;
+  margin: 0 auto;
+  background-color: #2f3e50;
   border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 1rem 2rem;
 }
 
 .btn {
