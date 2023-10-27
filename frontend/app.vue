@@ -21,7 +21,7 @@
           <input type="checkbox" v-model="isInputChecked">
           <span class="slider"></span>
         </label>
-        <button class="btn start-powerplay" @click="handlePowerplay">{{ powerPlayBtnLabel }}</button>
+        <button class="btn start-powerplay" @click="handlePowerplay">{{ powerplayBtnLabel }}</button>
       </div>
     </div>
     <div class="section">
@@ -44,13 +44,14 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 
-const powerPlayBtnLabel = ref('Start');
-const timer = ref(60);
-const isPowerplayRunning = ref(false);
+// bound to frontend
+const powerplayBtnLabel = ref('Start');
+const isInputChecked = ref(false); // temp tied to powerplay slide switch
 
-// temp variable tied to powerplay slide switch
-const isInputChecked = ref(false);
 const powerplayType = computed(() => isInputChecked.value ? 2: 1);
+const powerplayInterval = ref(null); // use a single instance of interval
+const isPowerplayRunning = ref(false);
+const timer = ref(60);
 
 const callWLED = async (buttonType) => {
   let payload = {};
@@ -99,30 +100,41 @@ const callWLED = async (buttonType) => {
 };
 
 const handlePowerplay = async () => {
-  let payload = {};
+  if(!isPowerplayRunning.value) { // only attempt if powerplay timer has stopped
+    let payload = {};
 
-  // set up payload with preset id mapped to powerplay type
-  if(powerplayType.value === 2) {
-    payload = { "ps": 172 };
-  } else { // type = 1
-    payload = { "ps": 171 };
-  }
-  // call wled with preset to set colour
-  await sendPOSTRequest("state", JSON.stringify(payload));
-
-  isPowerplayRunning.value = true;
-  const intervalId = setInterval(() => {
-    if (timer.value > 0) {
-      timer.value--;
-    } else {
-      clearInterval(intervalId);
-      isPowerplayRunning.value = false;
-      timer.value = 60;  // Reset timer
-      // Send another API call when timer runs out
-      // Example: fetch('API_ENDPOINT_END', { method: 'POST', body: JSON.stringify({ powerplayType: powerplayType.value }) });
+    // set up payload with preset id mapped to powerplay type
+    if(powerplayType.value === 2) {
+      payload = { "ps": 172 };
+    } else { // type = 1
+      payload = { "ps": 171 };
     }
-  }, 1000);
+    // call wled with preset to set colour
+    await sendPOSTRequest("state", JSON.stringify(payload));
+
+    // start 60s countdown
+    isPowerplayRunning.value = true;
+    const countdown = () => {
+      if (timer.value > 0 && isPowerplayRunning.value) {
+        timer.value--;
+      } // stopping interval is handled in watch()
+    };
+    
+    powerplayInterval.value = setInterval(countdown, 1000);
+
+    // UI changes
+    powerplayBtnLabel.value = "..."
+  }
 };
+
+const resetPowerplayTimer = () => {
+  clearInterval(powerplayInterval.value); // highly unlikely but clear any running intervals
+  isPowerplayRunning.value = false;
+  timer.value = 60;
+
+  // UI changes
+  powerplayBtnLabel.value = "Start";
+}
 
 const handleBuzzer = async () => {
   // buzzer playlist on WLED
@@ -160,7 +172,7 @@ const sendPOSTRequest = async (apiCommand, payload) => {
 
 watch(timer, (newVal) => {
   if (newVal === 0) {
-    isPowerplayRunning.value = false;
+    resetPowerplayTimer();
   }
 });
 
