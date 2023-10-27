@@ -1,10 +1,5 @@
 <template>
   <div class="container">
-    <!-- Game Timer -->
-    <!-- <div class="game-timer">
-      <span class="countdown">{{ gameTimerRemaining }}m</span>
-    </div> -->
-
     <!-- Shotclock Timer -->
     <div class="timer">
       <span class="countdown">{{ shotClockTimerRemaining }}s</span>
