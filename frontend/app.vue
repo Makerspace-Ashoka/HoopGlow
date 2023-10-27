@@ -18,7 +18,7 @@
       <span class="section-title">Powerplay</span>
       <div class="section-body">
         <label class="switch">
-          <input type="checkbox" v-model="isInputChecked">
+          <input type="checkbox" v-model="isPowerplayInputChecked">
           <span class="slider"></span>
         </label>
         <button class="btn start-powerplay" @click="handlePowerplay">{{ powerplayBtnLabel }}</button>
@@ -46,10 +46,10 @@ import { ref, computed, watch } from 'vue';
 
 // bound to frontend
 const powerplayBtnLabel = ref('Start');
-const isInputChecked = ref(false); // temp tied to powerplay slide switch
+const isPowerplayInputChecked = ref(false); // temp tied to powerplay slide switch
 
 // Note: computed properties don't need .value for accessing later
-const powerplayType = computed(() => isInputChecked.value ? 2: 1);
+const powerplayType = computed(() => isPowerplayInputChecked.value ? 2: 1);
 const powerplayInterval = ref(null); // use a single instance of interval
 const isPowerplayRunning = ref(false);
 const powerplayTimer = ref(60);
