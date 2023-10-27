@@ -99,13 +99,16 @@ const callWLED = async (buttonType) => {
 };
 
 const handlePowerplay = async () => {
-  payload = {};
-  if(powerplayType.value === 1) {
-    // Set colour to purple
-    payload = {};
+  let payload = {};
+
+  // set up payload with preset id mapped to powerplay type
+  if(powerplayType.value === 2) {
+    payload = { "ps": 172 };
+  } else { // type = 1
+    payload = { "ps": 171 };
   }
-  // Send API call on start keypress
-  // Example: fetch('API_ENDPOINT_START', { method: 'POST', body: JSON.stringify({ powerplayType: powerplayType.value }) });
+  // call wled with preset to set colour
+  await sendPOSTRequest("state", JSON.stringify(payload));
 
   isPowerplayRunning.value = true;
   const intervalId = setInterval(() => {
@@ -128,6 +131,8 @@ const handleBuzzer = async () => {
 
 // Function to send API requests using fetch
 const sendPOSTRequest = async (apiCommand, payload) => {
+  // TODO: delete before prod
+  console.info(payload);
   const IP = "192.168.20.139";
   try {
     // replace with your actual server URL
