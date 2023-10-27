@@ -105,9 +105,9 @@ const handlePowerplay = async () => {
 
     // set up payload with preset id mapped to powerplay type
     if(powerplayType.value === 2) {
-      payload = { "ps": 172 };
+      payload = { "pl": 172 };
     } else { // type = 1
-      payload = { "ps": 171 };
+      payload = { "pl": 171 };
     }
     // call wled with preset to set colour
     await sendPOSTRequest("state", JSON.stringify(payload));
