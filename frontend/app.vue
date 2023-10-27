@@ -54,6 +54,8 @@ export default {
   align-items: center;
   background-color: white;
   padding: 20px;
+  max-width: 90%;
+  margin: 0 auto;
 }
 
 .section {
