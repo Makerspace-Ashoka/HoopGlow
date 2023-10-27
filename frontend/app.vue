@@ -83,7 +83,7 @@ const handleButton = async (buttonType) => {
     // ... add cases for other buttons ...
   }
   // Send API call with the payload
-  await sendPOSTRequest("state", payload);
+  await sendPOSTRequest("state", JSON.stringify(payload));
   // Example: fetch('API_ENDPOINT', { method: 'POST', body: JSON.stringify(payload) });
 };
 
