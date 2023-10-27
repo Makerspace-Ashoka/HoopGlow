@@ -1,7 +1,7 @@
 html, body {
     height: 100%;
     /* background-color: #264653; Dark mode color; change based on preference */
-    background-color: #E8E8E8; /* Dark mode color; change based on preference */
+    background-color: #fbf5f3; /* Dark mode color; change based on preference */
     /* Dot matrix background effect */
     background-image: radial-gradient(#bbb 2px, transparent 2px),
                       radial-gradient(#bbb 2px, transparent 2px);

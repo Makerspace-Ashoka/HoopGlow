@@ -7,8 +7,8 @@
     <div class="section">
       <span class="section-title">Points</span>
       <div>
-        <button class="btn">1 Point</button>
-        <button class="btn">2 Points</button>
+        <button class="btn" style="background-color: #5D2A42;  color: #fbf5f3;">1 Point</button>
+        <button class="btn" style="background-color: #3a9d8f;  color: #fbf5f3;">2 Points</button>
       </div>
     </div>
     <div class="section">
@@ -21,17 +21,17 @@
     <div class="section">
       <span class="section-title">Gameplay</span>
       <div>
-        <button class="btn">Buzzer</button>
-        <button class="btn">Halftime</button>
+        <button class="btn" style="background-color: #E76F51; color: #fbf5f3;">Buzzer</button>
+        <button class="btn" style="background-color: #D9F9A5;">Halftime</button>
       </div>
     </div>
     <div class="section">
       <span class="section-title">Celebrations</span>
       <div>
-        <button class="btn">Effect 1</button>
-        <button class="btn">Effect 2</button>
-        <button class="btn">Effect 3</button>
-        <button class="btn">Effect 4</button>
+        <button class="btn" style="background-color: #FFD639;">Effect 1</button>
+        <button class="btn" style="background-color: #FFD639;">Effect 2</button>
+        <button class="btn" style="background-color: #FFD639;">Effect 3</button>
+        <button class="btn" style="background-color: #FFD639;">Effect 4</button>
       </div>
     </div>
   </div>
@@ -52,7 +52,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: white;
+  background-color: #FBFEF9;
   padding: 20px;
   max-width: 90%;
   margin: 0 auto;
@@ -69,7 +69,8 @@ export default {
 }
 
 .section-title {
-  font-weight: bold;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
   flex: 1;
 }
 
