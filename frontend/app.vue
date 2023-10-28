@@ -1,4 +1,5 @@
 <template>
+  <div class="container-wrapper">
   <div class="container">
     <div class="section status-monitor">
       <span class="section-title" id="status-monitor">Status Monitor</span>
@@ -36,9 +37,12 @@
         <button class="btn  btn-effect" @click="callWLED('1Effect')" :disabled="isPowerplayRunning">Effect 1</button>
         <button class="btn  btn-effect" @click="callWLED('2Effect')" :disabled="isPowerplayRunning">Effect 2</button>
         <button class="btn  btn-effect" @click="callWLED('3Effect')" :disabled="isPowerplayRunning">Effect 3</button>
+        <button class="btn  btn-effect" @click="callWLED('4Effect')" :disabled="isPowerplayRunning">Effect 4</button>
+        <button class="btn  btn-effect" @click="callWLED('5Effect')" :disabled="isPowerplayRunning">Effect 5</button>
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script setup>
@@ -147,26 +151,34 @@ watch(powerplayTimer, (newVal) => {
 </script>
 
 <style scoped>
+.container-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Take full viewport height */
+}
+
 .container {
   background: rgba(255,255,255, 0.1);
   border-radius: 10px;
-  padding: 2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* Optional: Adds depth */
-    backdrop-filter: blur(10px);  /* Key to the glass effect */
-    border: 1px solid rgba(255, 255, 255, 0.2);  /* Slight border to define the container */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-height: 90vh;
   max-width: 90%;
-  margin: 10vh 8vw;
-  padding-top: 5%;
-  padding-left: 10%;
-  padding-right: 10%;
+  margin: auto;
+  overflow: auto;
+  padding: 2rem;
 }
 
 .section {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: start;
+  gap: 10px;
   align-items: center;
   width: 100%;
   margin-bottom: 20px;
@@ -177,10 +189,11 @@ watch(powerplayTimer, (newVal) => {
 .section-title {
   font-weight: 700;
   flex: 1;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   padding-left: 10%;
   color: var(--text-color-dark);
   text-transform: uppercase;
+  margin-bottom: 2.5rem;
 }
 
 #status-monitor {
@@ -206,18 +219,20 @@ watch(powerplayTimer, (newVal) => {
 }
 
 .section-body {
-  padding-right: 10%
+  padding-right: 10%;
+  margin-left: auto;
 }
 
 .btn {
-  margin: 5px;
+  height: 50px;
+  margin: 5px 10px;
   padding: 1rem 2rem;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
   text-transform: uppercase;
   border-radius: 10px;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .btn:hover {
@@ -230,6 +245,10 @@ watch(powerplayTimer, (newVal) => {
   color: var(--text-color-light);
   cursor: not-allowed;
   transform: none;
+}
+
+.btn:active {
+  border: 2px solid black;
 }
 
 .btn-1point {
@@ -339,6 +358,9 @@ input:checked + .slider:after {
     margin: 3px;
     padding: 8px 16px;
   }
+  .container {
+    max-width: 95%;
+  }
 }
 
 /* For tablet devices */
@@ -352,6 +374,7 @@ input:checked + .slider:after {
 @media (max-width: 480px) {
   .container {
       max-width: 100%;
+      padding: 1rem;
   }
 }
 </style>
