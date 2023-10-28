@@ -82,6 +82,8 @@ const buildPayloadForButtonType = (buttonType) => {
     '5Effect': 205,
     'buzzer': 200, // burst red + red + blackout in 3s
     'buzzerPowerplay': 199, // burst red + stay red
+    'presetPP1': 71,
+    'presetPP2': 72,
     'presetClear': 9
   };
 
@@ -166,9 +168,29 @@ const handleBuzzer = async () => {
     } else {
       // not a powerplay, call normal buzzer
       await callWLED("buzzer");
+      
+      // TODO: get callback from WLED? this is very hacky and only for user experience
+      // so the user does not think buzzer button is glitching
+      // disengage buzzer in 2s
+      setTimeout(() => {
+        isBuzzerEngaged.value = false;
+      }, 2000);
     }
   } else {
     // disengaged
+    // FIXME: this condition will never fulfil, we need isNormal state variable
+    if (isPowerplayRunning.value) {
+      // go back to powerplay solid colour on timer resume
+      await callWLED(`presetPP${powerplayType.value}`);
+
+      // resume timer
+      // TODO: consider if (interval.value) then clear?
+      powerplayInterval.value = setInterval(() => {
+        if (powerplayTimer.value > 0) powerplayTimer.value--;
+      }, 1000);
+      isPowerplayRunning.value = true;
+      powerplayBtnLabel.value = "...";
+    }
   }
 }
 
