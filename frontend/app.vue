@@ -68,6 +68,7 @@ const powerplayType = computed(() => isPowerplayInputChecked.value ? 2: 1);
 const powerplayInterval = ref(null); // use a single instance of interval
 const isPowerplayRunning = ref(false);
 const powerplayTimer = ref(DEFAULT_POWERPLAY_TIMER);
+const IS_GAME_NORMAL = ref(true); // only way to resume appropriately from buzzer disengage
 
 // Utility Functions
 const buildPayloadForButtonType = (buttonType) => {
@@ -143,6 +144,7 @@ const handlePowerplay = async () => {
   }, 1000);
 
   isPowerplayRunning.value = true;
+  IS_GAME_NORMAL.value = false; // IMP: first time game is not normal
   powerplayBtnLabel.value = "...";
 };
 
@@ -157,7 +159,10 @@ const resetPowerplayTimer = async () => {
 
 const handleBuzzer = async () => {
   if (isBuzzerEngaged.value) {
-    if (isPowerplayRunning.value) {
+    if (isPowerplayRunning.value && !IS_GAME_NORMAL.value) {
+      // TODO: remove before prod
+      console.log(`powerplay ${powerplayType.value} in progress...`);
+
       // pause timer
       isPowerplayRunning.value = false;
       powerplayBtnLabel.value = "Buzzer engaged, timer paused...";
@@ -166,10 +171,12 @@ const handleBuzzer = async () => {
       // Set lights to long red (until buzzer disengages)
       await callWLED("buzzerPowerplay");
     } else {
+      // TODO: deactivate user actions on buzzer toggle
+
       // not a powerplay, call normal buzzer
       await callWLED("buzzer");
       
-      // TODO: get callback from WLED? this is very hacky and only for user experience
+      // [LONG TERM] TODO: get callback from WLED? this is very hacky and only for user experience
       // so the user does not think buzzer button is glitching
       // disengage buzzer in 2s
       setTimeout(() => {
@@ -177,9 +184,12 @@ const handleBuzzer = async () => {
       }, 2000);
     }
   } else {
-    // disengaged
+    // disengaged: we will only come here when user clicks on buzzer toggle from powerplay
+    // since it's auto dis-engaged when game is in NORMAL mode
+
     // FIXME: this condition will never fulfil, we need isNormal state variable
-    if (isPowerplayRunning.value) {
+    if (!IS_GAME_NORMAL.value) { // timer was not 0, we had paused powerplay
+
       // go back to powerplay solid colour on timer resume
       await callWLED(`presetPP${powerplayType.value}`);
 
@@ -195,8 +205,16 @@ const handleBuzzer = async () => {
 }
 
 // Watchers
-watch(powerplayTimer, (newVal) => {
-  if (newVal === 0) resetPowerplayTimer();
+watch(powerplayTimer, async (newVal) => {
+  // IMPORTANT: we set normalMode to true again ONLY here, not inside handleBuzzer.
+  // This is the only way to ensure global truth about current game mode. Do not edit normalMode state
+  // unless you know what you are doing!!!
+  if (newVal === 0) {
+    IS_GAME_NORMAL.value = true; // IMP: last second of powerplay over, only place to set normal mode to true
+
+    // calls preset black on WLED to clear LEDs
+    await resetPowerplayTimer();
+  }
 });
 
 </script>
