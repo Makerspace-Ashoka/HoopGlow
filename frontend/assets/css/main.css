@@ -1,0 +1,54 @@
+html, body {
+    height: 100%;
+    /* background-color: #264653; Dark mode color; change based on preference */
+    /* background-color: #fbf5f3; Dark mode color; change based on preference */
+    /* Dot matrix background effect */
+    /* background-image: radial-gradient(#bbb 2px, transparent 2px),
+                      radial-gradient(#bbb 2px, transparent 2px);
+    background-position: 0 0, 25px 25px;
+    background-size: 50px 50px; */
+    font-family: 'Nunito', sans-serif;
+  }
+  
+  /* Other styles, animations, and glowing effects come here. */
+  body::before, body::after {
+    content: "";
+    position: absolute;
+    width: 600px; /* Increased the width */
+    height: 600px; /* Increased the height */
+    top: -100px; /* Adjusted the position */
+    left: -100px; /* Adjusted the position */
+    background: radial-gradient(circle, #ff9a9e, #fad0c4, #f6d365, #fda085);
+    filter: blur(80px); /* Increased the blur for smoother transition */
+    z-index: -1;
+    opacity: 0.7;
+}
+
+body::after {
+    top: unset;
+    bottom: -100px; /* Adjusted the position */
+    right: -100px; /* Adjusted the position */
+    left: unset;
+    background: radial-gradient(circle, #ffecd2, #fcb69f);
+}
+
+:root {
+  --monitor-card-bg: #2f3e50;
+
+  --btn-1point-bg: #5D2A42;
+  --btn-2point-bg: #3a9d8f;
+  --btn-3point-bg: #D9F9A5;
+  --btn-effect-bg: #FFD639;
+  --btn-buzzer-bg-disengaged: #E76F51;
+  --btn-buzzer-bg-engaged: #B03618;
+
+  --btn-start-bg: #D1F5BE;
+  --btn-disabled-bg: grey;
+
+  --text-color-light: #fbf5f3;
+  --text-color-dark: #333; /* or any default color you'd like */
+}
+
+
+  /* Use classes to switch between dark and light modes. */
+  
