@@ -62,7 +62,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
 
 // Constants
 const IP = "192.168.21.208";
@@ -85,6 +85,49 @@ const buzzerDisabled = ref(false); // only use it to disable before automaticall
 const IS_GAME_NORMAL = ref(true); // only way to resume appropriately from buzzer disengage
 
 // Utility Functions
+const handleKeyDown = async (event) => {
+  switch (event.key) {
+    case '1':
+      await callWLED('1Point');
+      break;
+    case '2':
+      await callWLED('2Point');
+      break;
+    case '3':
+      await callWLED('3Point');
+      break;
+    case 'z':
+      await callWLED('1Effect');
+      break;
+    case 'x':
+      await callWLED('2Effect');
+      break;
+    case 'c':
+      await callWLED('3Effect');
+      break;
+    case 'f':
+      await callWLED('4Effect');
+      break;
+    case 's':
+      await callWLED('5Effect');
+      break;
+    case 'r':
+      await callWLED('presetClear');
+      break;
+    default:
+      // No action for other keys
+      break;
+  }
+};
+
+onMounted(() => {
+  document.addEventListener('keydown', handleKeyDown);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener('keydown', handleKeyDown);
+});
+
 const buildPayloadForButtonType = (buttonType) => {
   const basePlaylists = {
     '1Point': 101,
