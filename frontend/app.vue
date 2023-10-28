@@ -9,9 +9,9 @@
     <div class="section">
       <span class="section-title">Points</span>
       <div class="section-body">
-        <button class="btn" style="background-color: #5D2A42;  color: #fbf5f3;" @click="callWLED('1Point')"  :disabled="isPowerplayRunning">1 Point</button>
-        <button class="btn" style="background-color: #3a9d8f;  color: #fbf5f3;" @click="callWLED('2Point')">2 Points</button>
-        <button class="btn" style="background-color: #D9F9A5;" @click="callWLED('3Point')">3 Points</button>
+        <button class="btn btn-1point" @click="callWLED('1Point')"  :disabled="isPowerplayRunning">1 Point</button>
+        <button class="btn btn-2point" @click="callWLED('2Point')">2 Points</button>
+        <button class="btn btn-3point" @click="callWLED('3Point')">3 Points</button>
       </div>
     </div>
     <div class="section">
@@ -21,21 +21,21 @@
           <input type="checkbox" v-model="isPowerplayInputChecked" :disabled="isPowerplayRunning">
           <span class="slider"></span>
         </label>
-        <button class="btn start-powerplay" @click="handlePowerplay">{{ powerplayBtnLabel }}</button>
+        <button class="btn btn-start-powerplay" @click="handlePowerplay">{{ powerplayBtnLabel }}</button>
       </div>
     </div>
     <div class="section">
       <span class="section-title">Gameplay</span>
       <div class="section-body">
-        <button class="btn" style="background-color: #E76F51; color: #fbf5f3;" @click="handleBuzzer">Buzzer</button>
+        <button class="btn  btn-buzzer" @click="handleBuzzer">Buzzer</button>
       </div>
     </div>
     <div class="section">
       <span class="section-title">Celebrations</span>
       <div class="section-body">
-        <button class="btn" style="background-color: #FFD639;" @click="callWLED('1Effect')" :disabled="isPowerplayRunning">Effect 1</button>
-        <button class="btn" style="background-color: #FFD639;" @click="callWLED('2Effect')" :disabled="isPowerplayRunning">Effect 2</button>
-        <button class="btn" style="background-color: #FFD639;" @click="callWLED('3Effect')" :disabled="isPowerplayRunning">Effect 3</button>
+        <button class="btn  btn-effect" @click="callWLED('1Effect')" :disabled="isPowerplayRunning">Effect 1</button>
+        <button class="btn  btn-effect" @click="callWLED('2Effect')" :disabled="isPowerplayRunning">Effect 2</button>
+        <button class="btn  btn-effect" @click="callWLED('3Effect')" :disabled="isPowerplayRunning">Effect 3</button>
       </div>
     </div>
   </div>
@@ -177,8 +177,10 @@ watch(powerplayTimer, (newVal) => {
 .section-title {
   font-weight: 700;
   flex: 1;
-  font-size: 24px;
+  font-size: 1.3rem;
   padding-left: 10%;
+  color: var(--text-color-dark);
+  text-transform: uppercase;
 }
 
 #status-monitor {
@@ -189,7 +191,7 @@ watch(powerplayTimer, (newVal) => {
   width: 50%;
   height: 100px;
   margin: 0 auto;
-  background-color: #2f3e50;
+  background-color: var(--monitor-card-bg);
   border-radius: 10px;
   padding: 1rem 2rem;
 
@@ -200,7 +202,7 @@ watch(powerplayTimer, (newVal) => {
 
 .monitor-text {
   font-size: 3rem;
-  color: #fbf5f3;
+  color: var(--text-color-light);
 }
 
 .section-body {
@@ -219,18 +221,46 @@ watch(powerplayTimer, (newVal) => {
 }
 
 .btn:hover {
-  background-color: #f0f0f0 !important;
+  background-color: #f0f0f0;
   transform: translateY(-5px);
 }
 
 .btn:disabled {
-  background-color: grey !important;
+  background-color: var(--btn-disabled-bg);
+  color: var(--text-color-light);
   cursor: not-allowed;
   transform: none;
 }
 
-.start-powerplay {
-  background-color: #D1F5BE;
+.btn-1point {
+    background-color: var(--btn-1point-bg);
+    color: var(--text-color-light);
+}
+
+.btn-2point {
+    background-color: var(--btn-2point-bg);
+    color: var(--text-color-light);
+}
+
+.btn-3point {
+    background-color: var(--btn-3point-bg);
+    color: var(--text-color-dark); 
+}
+
+.btn-buzzer {
+    background-color: var(--btn-buzzer-bg);
+    color: var(--text-color-light);
+}
+
+.btn-effect {
+    background-color: var(--btn-effect-bg);
+    color: var(--text-color-dark);
+}
+
+
+.btn-start-powerplay {
+  background-color: var(--btn-start-bg);
+  color: var(--text-color-dark);
   margin-left: 2rem;
 }
 
@@ -246,12 +276,12 @@ watch(powerplayTimer, (newVal) => {
 }
 
 .switch input:disabled + .slider { 
-  background-color: grey !important;
+  background-color: var(--btn-disabled-bg);
   cursor: not-allowed;
 }
 
 .switch input:disabled + .slider:before { 
-  background-color: ccc !important;
+  background-color: ccc;
 }
 
 .slider {
@@ -263,6 +293,7 @@ watch(powerplayTimer, (newVal) => {
     background-color: purple;
     border-radius: 34px;
     transition: .4s;
+    color: var(--text-color-dark);
 }
 
 .slider:before{
@@ -274,9 +305,6 @@ watch(powerplayTimer, (newVal) => {
     border-radius: 50%;
     transition: .4s;
     content: "";
-}
-
-.slider:before {
     display: flex;  /* Use flexbox to center the content */
     align-items: center;  /* Vertical alignment */
     justify-content: center; 
