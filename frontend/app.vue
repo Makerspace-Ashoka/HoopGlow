@@ -37,8 +37,8 @@
         <button class="btn  btn-effect" @click="callWLED('1Effect')" :disabled="isPowerplayRunning">Effect 1</button>
         <button class="btn  btn-effect" @click="callWLED('2Effect')" :disabled="isPowerplayRunning">Effect 2</button>
         <button class="btn  btn-effect" @click="callWLED('3Effect')" :disabled="isPowerplayRunning">Effect 3</button>
-        <button class="btn  btn-effect" @click="callWLED('4Effect')" :disabled="isPowerplayRunning">Effect 4</button>
-        <button class="btn  btn-effect" @click="callWLED('5Effect')" :disabled="isPowerplayRunning">Effect 5</button>
+        <button class="btn  btn-effect" @click="callWLED('4Effect')" :disabled="isPowerplayRunning">Filler</button>
+        <button class="btn  btn-effect" @click="callWLED('5Effect')" :disabled="isPowerplayRunning">Strobe</button>
       </div>
     </div>
   </div>
@@ -74,6 +74,8 @@ const buildPayloadForButtonType = (buttonType) => {
     '1Effect': 201,
     '2Effect': 202,
     '3Effect': 203,
+    '4Effect': 204,
+    '5Effect': 205,
     'buzzer': 200
   };
 
@@ -237,7 +239,7 @@ watch(powerplayTimer, (newVal) => {
 
 .btn:hover {
   background-color: #f0f0f0;
-  transform: translateY(-5px);
+  transform: scale(1.05);
 }
 
 .btn:disabled {
@@ -248,7 +250,7 @@ watch(powerplayTimer, (newVal) => {
 }
 
 .btn:active {
-  border: 2px solid black;
+  transform: translateY(-10px);
 }
 
 .btn-1point {
@@ -288,6 +290,7 @@ watch(powerplayTimer, (newVal) => {
     display: inline-block;
     width: 90px;
     height: 34px;
+    margin-right: 15vw;
 }
 
 .switch input { 
