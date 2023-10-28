@@ -1,4 +1,5 @@
 <template>
+<div class="main-wrapper">
   <div class="container-wrapper">
   <div class="container">
     <div class="section status-monitor">
@@ -46,6 +47,17 @@
       </div>
     </div>
   </div>
+  </div>
+  <footer class="footer">
+    <div><a href="https://github.com/Makerspace-Ashoka/HoopGlow">HoopGlow</a>&nbsp; is a Makerspace initiative by one of our student community mentors, <a href="mailto:ojas.tripathi_asp24@ashoka.edu.in" target="_blank">Ojas Tripathi</a>.</div>
+    <div>The complete backboard display was built in 72 hours due to the untiring efforts from Aarth, Hamza, Aditya, Kanishk, Sai</div>
+    <div>This site is built with <span class="heart-symbol">❤</span> by <a href="https://deeprajpandey.github.io" target="_blank">deepraj</a> at <a href="https://github.com/Ashoka-Makerspace/" target="_blank">Ashoka University's Makerspace</a>.</div>
+  </footer>
+  <!-- <footer class="centered-footer">
+    <div class="footer-div">Sample Text 1</div>
+    <div class="footer-div">Sample Text 2</div>
+    <div class="footer-div">Sample Text 3</div>
+  </footer> -->
 </div>
 </template>
 
@@ -252,11 +264,17 @@ watch(powerplayTimer, async (newVal) => {
 </script>
 
 <style scoped>
+.main-wrapper {
+  display: flex;
+  flex-direction: column; /* Stacks children vertically */
+  justify-content: space-between; /* Maximize space between the container and the footer */
+  height: 100vh; /* Take full viewport height */
+}
 .container-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Take full viewport height */
+  flex-grow: 1; /* Let it grow into rest of v-space */
 }
 
 .container {
@@ -523,4 +541,33 @@ watch(powerplayTimer, async (newVal) => {
       padding: 1rem;
   }
 }
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  height: 12vh;
+  align-items: center;
+  justify-content: center;
+  background-color: #333; /* Optional: for contrast */
+  color: #fff; /* Optional: for white text */
+  margin-left: -8px;
+  margin-right: -8px;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.heart-symbol {
+  color: red;  /* Optional: to make the heart symbol red */
+  padding: 0 5px;
+}
+
+.footer div {
+  line-height: 1.6rem;;
+}
+
+.footer div a {
+  color: #dddddd;
+  text-decoration: underline;
+}
+
 </style>
