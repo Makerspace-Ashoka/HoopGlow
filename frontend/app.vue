@@ -9,7 +9,7 @@
     <div class="section">
       <span class="section-title">Points</span>
       <div class="section-body">
-        <button class="btn" style="background-color: #5D2A42;  color: #fbf5f3;" @click="callWLED('1Point')">1 Point</button>
+        <button class="btn" style="background-color: #5D2A42;  color: #fbf5f3;" @click="callWLED('1Point')"  :disabled="isPowerplayRunning">1 Point</button>
         <button class="btn" style="background-color: #3a9d8f;  color: #fbf5f3;" @click="callWLED('2Point')">2 Points</button>
         <button class="btn" style="background-color: #D9F9A5;" @click="callWLED('3Point')">3 Points</button>
       </div>
@@ -18,7 +18,7 @@
       <span class="section-title">Powerplay</span>
       <div class="section-body">
         <label class="switch">
-          <input type="checkbox" v-model="isPowerplayInputChecked">
+          <input type="checkbox" v-model="isPowerplayInputChecked" :disabled="isPowerplayRunning">
           <span class="slider"></span>
         </label>
         <button class="btn start-powerplay" @click="handlePowerplay">{{ powerplayBtnLabel }}</button>
@@ -33,9 +33,9 @@
     <div class="section">
       <span class="section-title">Celebrations</span>
       <div class="section-body">
-        <button class="btn" style="background-color: #FFD639;" @click="callWLED('1Effect')">Effect 1</button>
-        <button class="btn" style="background-color: #FFD639;" @click="callWLED('2Effect')">Effect 2</button>
-        <button class="btn" style="background-color: #FFD639;" @click="callWLED('3Effect')">Effect 3</button>
+        <button class="btn" style="background-color: #FFD639;" @click="callWLED('1Effect')" :disabled="isPowerplayRunning">Effect 1</button>
+        <button class="btn" style="background-color: #FFD639;" @click="callWLED('2Effect')" :disabled="isPowerplayRunning">Effect 2</button>
+        <button class="btn" style="background-color: #FFD639;" @click="callWLED('3Effect')" :disabled="isPowerplayRunning">Effect 3</button>
       </div>
     </div>
   </div>
@@ -219,8 +219,14 @@ watch(powerplayTimer, (newVal) => {
 }
 
 .btn:hover {
-  background-color: #f0f0f0;
+  background-color: #f0f0f0 !important;
   transform: translateY(-5px);
+}
+
+.btn:disabled {
+  background-color: grey !important;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .start-powerplay {
@@ -237,6 +243,15 @@ watch(powerplayTimer, (newVal) => {
 
 .switch input { 
     display:none;
+}
+
+.switch input:disabled + .slider { 
+  background-color: grey !important;
+  cursor: not-allowed;
+}
+
+.switch input:disabled + .slider:before { 
+  background-color: ccc !important;
 }
 
 .slider {
