@@ -29,7 +29,7 @@
       <span class="section-title">Gameplay</span>
       <div class="section-body">
         <label class="buzzer-switch">
-          <input type="buzzer-checkbox" v-model="isBuzzerEngaged" @change="handleBuzzer">
+          <input type="checkbox" v-model="isBuzzerEngaged" @change="handleBuzzer">
           <span class="buzzer-slider btn-buzzer"></span>
         </label>
       </div>
@@ -52,7 +52,7 @@
 import { ref, computed, watch } from 'vue';
 
 // Constants
-const IP = "192.168.40.111";
+const IP = "192.168.20.139";
 const DEFAULT_POWERPLAY_TIMER = 60; // in seconds
 
 // Frontend bindings
@@ -300,6 +300,19 @@ watch(powerplayTimer, (newVal) => {
     display:none;
 }
 
+.switch input:checked + .slider {
+    background-color: #2196F3;
+}
+
+.switch input:checked + .slider:before {
+    left: 60px;
+    content: "2";
+}
+
+.switch input:checked + .slider:after {
+    opacity: 0; /* Show it when checked */
+}
+
 .switch input:disabled + .slider { 
   background-color: var(--btn-disabled-bg);
   cursor: not-allowed;
@@ -343,19 +356,6 @@ watch(powerplayTimer, (newVal) => {
     right: 4px;
     bottom: 4px;
     opacity: 0; /* Hide it initially */
-}
-
-input:checked + .slider {
-    background-color: #2196F3;
-}
-
-input:checked + .slider:before {
-    left: 60px;
-    content: "2";
-}
-
-input:checked + .slider:after {
-    opacity: 0; /* Show it when checked */
 }
 
 /* Adjustments for responsiveness can be added below */
