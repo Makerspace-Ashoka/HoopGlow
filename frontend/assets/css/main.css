@@ -32,6 +32,21 @@ body::after {
     background: radial-gradient(circle, #ffecd2, #fcb69f);
 }
 
+:root {
+  --monitor-card-bg: #2f3e50;
+
+  --btn-1point-bg: #5D2A42;
+  --btn-2point-bg: #3a9d8f;
+  --btn-3point-bg: #D9F9A5;
+  --btn-buzzer-bg: #E76F51;
+  --btn-effect-bg: #FFD639;
+
+  --btn-start-bg: #D1F5BE;
+  --btn-disabled-bg: grey;
+
+  --text-color-light: #fbf5f3;
+  --text-color-dark: #333; /* or any default color you'd like */
+}
 
 
   /* Use classes to switch between dark and light modes. */
