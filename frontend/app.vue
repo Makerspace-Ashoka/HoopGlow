@@ -81,8 +81,13 @@ const buildPayloadForButtonType = (buttonType) => {
     '4Effect': 204,
     '5Effect': 205,
     'buzzer': 200, // burst red + red + blackout in 3s
-    'buzzerPowerplay': 199 // burst red + stay red
+    'buzzerPowerplay': 199, // burst red + stay red
+    'presetClear': 9
   };
+
+  const payloads = {
+    9: {"on":true,"bri":254,"transition":5,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"col":[[0,0,0],[0,0,0],[0,0,0]],"fx":0,"sx":242,"ix":255,"pal":4,"sel":true,"rev":true,"mi":false},{"id":1,"start":149,"stop":297,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"col":[[0,0,0],[0,0,0],[0,0,0]],"fx":0,"sx":242,"ix":255,"pal":4,"sel":true,"rev":true,"mi":false},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]}
+  }
 
   // return general playlist id if not in powerplay
   if (!isPowerplayRunning.value) return { "pl": basePlaylists[buttonType] };
@@ -138,7 +143,9 @@ const handlePowerplay = async () => {
   powerplayBtnLabel.value = "...";
 };
 
-const resetPowerplayTimer = () => {
+const resetPowerplayTimer = async () => {
+  // Send black preset as end of powerplay
+  await callWLED("presetClear");
   clearInterval(powerplayInterval.value);
   isPowerplayRunning.value = false;
   powerplayTimer.value = DEFAULT_POWERPLAY_TIMER;
