@@ -44,111 +44,50 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 
-// bound to frontend
-const powerplayBtnLabel = ref('Start');
-const isPowerplayInputChecked = ref(false); // temp tied to powerplay slide switch
+// Constants
+const IP = "192.168.40.111";
+const DEFAULT_POWERPLAY_TIMER = 60; // in seconds
 
+// Frontend bindings
+const powerplayBtnLabel = ref('Start');
+const isPowerplayInputChecked = ref(false); // v-bind to powerplay slide switch
+
+// Computed properties
 // Note: computed properties don't need .value for accessing later
 const powerplayType = computed(() => isPowerplayInputChecked.value ? 2: 1);
+
+// Internal state management
 const powerplayInterval = ref(null); // use a single instance of interval
 const isPowerplayRunning = ref(false);
-const powerplayTimer = ref(60);
+const powerplayTimer = ref(DEFAULT_POWERPLAY_TIMER);
 
-const callWLED = async (buttonType) => {
-  let payload = {};
-  switch(buttonType) {
-    case '1Point':
-      // We will never come here in powerplay
-      // 1point playlist
-      payload = { "pl":  101};
-      break;
-    case '2Point':
-      if(isPowerplayRunning.value && powerplayType === 2) {
-        // powerplay 2, 2point playlist
-        payload = { "pl":  122};
-      } else if(isPowerplayRunning.value && powerplayType === 1) {
-        // powerplay 1, 2point playlist
-        payload = { "pl":  112};
-      } else {
-        // 2point playlist
-        payload = { "pl":  102};
-      }
-      break;
-    case '3Point':
-      if(isPowerplayRunning.value && powerplayType === 2) {
-        // powerplay 2, 3point playlist
-        payload = { "pl":  123};
-      } else if(isPowerplayRunning.value && powerplayType === 1) {
-        // powerplay 1, 3point playlist
-        payload = { "pl":  113};
-      } else {
-        // 3point playlist
-        payload = { "pl":  103};
-      }
-      break;
-    case '1Effect':
-      payload = { "pl":  201};
-      break;
-    case '2Effect':
-      payload = { "pl":  202};
-      break;
-    case '3Effect':
-      payload = { "pl":  203};
-      break;
-  }
-  // send API call with the payload
-  await sendPOSTRequest("state", JSON.stringify(payload));
+// Utility Functions
+const buildPayloadForButtonType = (buttonType) => {
+  const basePlaylists = {
+    '1Point': 101,
+    '2Point': 102,
+    '3Point': 103,
+    '1Effect': 201,
+    '2Effect': 202,
+    '3Effect': 203,
+    'buzzer': 200
+  };
+
+  // return general playlist id if not in powerplay
+  if (!isPowerplayRunning.value) return { "pl": basePlaylists[buttonType] };
+
+  // for powerplay playlist ids, add 20 if powerplay 2, 10 if powerplay 1
+  const powerplayOffset = 10 * powerplayType.value;
+  if (['2Point', '3Point'].includes(buttonType)) return { "pl": basePlaylists[buttonType] + powerplayOffset };
+
+  // rest of the buttons
+  return { "pl": basePlaylists[buttonType] };
 };
 
-const handlePowerplay = async () => {
-  if(!isPowerplayRunning.value) { // only attempt if powerplay timer has stopped
-    let payload = {};
-
-    // set up payload with preset id mapped to powerplay type
-    if(powerplayType.value === 2) {
-      payload = { "pl": 172 };
-    } else { // type = 1
-      payload = { "pl": 171 };
-    }
-    // call wled with preset to set colour
-    await sendPOSTRequest("state", JSON.stringify(payload));
-
-    // start 60s countdown
-    isPowerplayRunning.value = true;
-    const countdown = () => {
-      if (powerplayTimer.value > 0 && isPowerplayRunning.value) {
-        powerplayTimer.value--;
-      } // stopping interval is handled in watch()
-    };
-    
-    powerplayInterval.value = setInterval(countdown, 1000);
-
-    // UI changes
-    powerplayBtnLabel.value = "..."
-  }
-};
-
-const resetPowerplayTimer = () => {
-  clearInterval(powerplayInterval.value); // highly unlikely but clear any running intervals
-  isPowerplayRunning.value = false;
-  powerplayTimer.value = 60;
-
-  // UI changes
-  powerplayBtnLabel.value = "Start";
-}
-
-const handleBuzzer = async () => {
-  // buzzer playlist on WLED
-  payload = { "pl":  200};
-}
-
-// Function to send API requests using fetch
 const sendPOSTRequest = async (apiCommand, payload) => {
-  // TODO: delete before prod
-  console.info(payload);
-  const IP = "192.168.20.139";
+  console.info(payload); // TODO: delete before prod
+
   try {
-    // replace with your actual server URL
     const url = `http://${IP}/json/${apiCommand}`;
     const response = await fetch(url, {
       method: 'POST',
@@ -158,23 +97,51 @@ const sendPOSTRequest = async (apiCommand, payload) => {
       body: payload
     });
 
-    // check if the request was successful
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    // TODO: delete these lines before prod
-    const data = await response.json();
-    console.log(data);
+    console.log(await response.json()); // TODO: delete before prod
   } catch (error) {
     console.error('An error occurred:', error);
   }
 };
 
+// Event handlers
+const callWLED = async (buttonType) => {
+  const payload = buildPayloadForButtonType(buttonType);
+  await sendPOSTRequest("state", JSON.stringify(payload));
+};
+
+const handlePowerplay = async () => {
+  if(isPowerplayRunning.value) return;
+
+  const payload = { "pl": powerplayType.value === 2 ? 172 : 171 };
+  await sendPOSTRequest("state", JSON.stringify(payload));
+
+  powerplayInterval.value = setInterval(() => {
+    if (powerplayTimer.value > 0 && isPowerplayRunning.value) powerplayTimer.value--;
+  }, 1000);
+
+  isPowerplayRunning.value = true;
+  powerplayBtnLabel.value = "...";
+};
+
+const resetPowerplayTimer = () => {
+  clearInterval(powerplayInterval.value);
+  isPowerplayRunning.value = false;
+  powerplayTimer.value = DEFAULT_POWERPLAY_TIMER;
+  powerplayBtnLabel.value = 'Start';
+};
+
+const handleBuzzer = async () => {
+  const payload = { "pl":  200};
+  await sendPOSTRequest("state", JSON.stringify(payload));
+}
+
+// Watchers
 watch(powerplayTimer, (newVal) => {
-  if (newVal === 0) {
-    resetPowerplayTimer();
-  }
+  if (newVal === 0) resetPowerplayTimer();
 });
 
 </script>
