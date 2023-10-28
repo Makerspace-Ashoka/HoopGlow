@@ -29,7 +29,7 @@
       <span class="section-title">Buzzer</span>
       <div class="section-body">
         <label class="buzzer-switch">
-          <input type="checkbox" v-model="isBuzzerEngaged" :disabled="buzzerDisabled" @change="handleBuzzer">
+          <input type="checkbox" v-model="isBuzzerEngaged" @change="handleBuzzer">
           <span class="buzzer-slider"></span>
         </label>
       </div>
@@ -52,7 +52,7 @@
 import { ref, computed, watch } from 'vue';
 
 // Constants
-const IP = "192.168.20.139";
+const IP = "192.168.40.111";
 const DEFAULT_POWERPLAY_TIMER = 60; // in seconds
 
 // Frontend bindings
@@ -84,24 +84,49 @@ const buildPayloadForButtonType = (buttonType) => {
     '5Effect': 205,
     'buzzer': 200, // burst red + red + blackout in 3s
     'buzzerPowerplay': 199, // burst red + stay red
+    'initPowerplay1': 171,
+    'initPowerplay2': 172,
     'presetPP1': 71,
     'presetPP2': 72,
     'presetClear': 9
   };
 
   const payloads = {
-    9: {"on":true,"bri":254,"transition":5,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"col":[[0,0,0],[0,0,0],[0,0,0]],"fx":0,"sx":242,"ix":255,"pal":4,"sel":true,"rev":true,"mi":false},{"id":1,"start":149,"stop":297,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"col":[[0,0,0],[0,0,0],[0,0,0]],"fx":0,"sx":242,"ix":255,"pal":4,"sel":true,"rev":true,"mi":false},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]}
+    101:{"playlist":{"ps":[9,11,9],"dur":[2,20,2],"transition":[1,1,3],"repeat":1,"r":false,"end":9},"on":true},
+    102:{"playlist":{"ps":[9,10,9],"dur":[2,20,2],"transition":[0,0,3],"repeat":1,"r":false,"end":9},"on":true},
+    103:{"playlist":{"ps":[9,5,9],"dur":[2,20,20],"transition":[0,0,3],"repeat":1,"r":false,"end":9},"on":true},
+    112:{"playlist":{"ps":[9,10,9],"dur":[2,20,2],"transition":[1,1,3],"repeat":1,"r":false,"end":71},"on":true},
+    113:{"playlist":{"ps":[9,5,9],"dur":[2,20,2],"transition":[1,1,3],"repeat":1,"r":false,"end":71},"on":true},
+    122:{"playlist":{"ps":[9,10,9],"dur":[2,20,2],"transition":[1,1,3],"repeat":1,"r":false,"end":72},"on":true},
+    123:{"playlist":{"ps":[9,5,9],"dur":[2,20,2],"transition":[1,1,3],"repeat":1,"r":false,"end":72},"on":true},
+    199:{"playlist":{"ps":[9,19],"dur":[2,10],"transition":[5,5],"repeat":1,"r":false,"end":20},"on":true},
+    200:{"playlist":{"ps":[9,19,20],"dur":[2,10,20],"transition":[0,0,3],"repeat":1,"r":false,"end":9},"on":true}, 
+    171:{"playlist":{"ps":[9,99],"dur":[2,5],"transition":[0,0],"repeat":1,"r":false,"end":71},"on":true},
+    172:{"playlist":{"ps":[9,100],"dur":[2,5],"transition":[5,5],"repeat":1,"r":false,"end":72},"on":true},
+    205:{"playlist":{"ps":[97],"dur":[20],"transition":[5],"repeat":1,"r":false,"end":96},"on":true},
+    9: {"on":true,"bri":254,"transition":5,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"col":[[0,0,0],[0,0,0],[0,0,0]],"fx":0,"sx":242,"ix":255,"pal":4,"sel":true,"rev":true,"mi":false},{"id":1,"start":149,"stop":297,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"col":[[0,0,0],[0,0,0],[0,0,0]],"fx":0,"sx":242,"ix":255,"pal":4,"sel":true,"rev":true,"mi":false},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]},
+    71: {"on":true,"bri":254,"transition":5,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"col":[[0,255,251],[0,0,0],[0,0,0]],"fx":0,"sx":242,"ix":255,"pal":4,"sel":true,"rev":true,"mi":false},{"id":1,"start":149,"stop":297,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"col":[[0,255,251],[0,0,0],[0,0,0]],"fx":0,"sx":242,"ix":255,"pal":4,"sel":true,"rev":true,"mi":false},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]},
+    72:{"on":true,"bri":254,"transition":5,"mainseg":0,"seg":[{"id":0,"start":0,"stop":149,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"col":[[255,0,255],[0,0,0],[0,0,0]],"fx":0,"sx":242,"ix":255,"pal":4,"sel":true,"rev":true,"mi":false},{"id":1,"start":149,"stop":297,"grp":1,"spc":0,"of":0,"on":true,"frz":false,"bri":255,"cct":127,"col":[[255,0,255],[0,0,0],[0,0,0]],"fx":0,"sx":242,"ix":255,"pal":4,"sel":true,"rev":true,"mi":false},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0},{"stop":0}]}
   }
 
+  let payload_index = null;
+  
   // return general playlist id if not in powerplay
-  if (!isPowerplayRunning.value) return { "pl": basePlaylists[buttonType] };
+  if (!isPowerplayRunning.value) {
+    payload_index = basePlaylists[buttonType];
+    return payloads[payload_index];
+  }
 
   // for powerplay playlist ids, add 20 if powerplay 2, 10 if powerplay 1
   const powerplayOffset = 10 * powerplayType.value;
-  if (['2Point', '3Point'].includes(buttonType)) return { "pl": basePlaylists[buttonType] + powerplayOffset };
+  if (['2Point', '3Point'].includes(buttonType)) {
+    payload_index = basePlaylists[buttonType] + powerplayOffset;
+    return payloads[payload_index];
+  }
 
   // rest of the buttons
-  return { "pl": basePlaylists[buttonType] };
+  payload_index = basePlaylists[buttonType];
+  return payloads[payload_index];
 };
 
 const sendPOSTRequest = async (apiCommand, payload) => {
@@ -136,9 +161,9 @@ const callWLED = async (buttonType) => {
 const handlePowerplay = async () => {
   if(isPowerplayRunning.value) return;
 
-  // TODO: update payload
-  const payload = { "pl": powerplayType.value === 2 ? 172 : 171 };
-  await sendPOSTRequest("state", JSON.stringify(payload));
+  await callWLED(`initPowerplay${powerplayType.value}`);
+  // const payload = { "pl": powerplayType.value === 2 ? 172 : 171 };
+  // await sendPOSTRequest("state", JSON.stringify(payload));
 
   powerplayInterval.value = setInterval(() => {
     if (powerplayTimer.value > 0 && isPowerplayRunning.value) powerplayTimer.value--;
@@ -173,7 +198,7 @@ const handleBuzzer = async () => {
       await callWLED("buzzerPowerplay");
     } else {
       // deactivate user actions on buzzer toggle
-      buzzerDisabled.value = true;
+      // buzzerDisabled.value = true;
 
       // not a powerplay, call normal buzzer
       await callWLED("buzzer");
@@ -183,14 +208,13 @@ const handleBuzzer = async () => {
       // disengage buzzer in 2s
       setTimeout(() => {
         isBuzzerEngaged.value = false;
-        buzzerDisabled.value = true;
-      }, 2000);
+        // buzzerDisabled.value = true;
+      }, 500);
     }
   } else {
     // disengaged: we will only come here when user clicks on buzzer toggle from powerplay
     // since it's auto dis-engaged when game is in NORMAL mode
 
-    // FIXME: this condition will never fulfil, we need isNormal state variable
     if (!IS_GAME_NORMAL.value) { // timer was not 0, we had paused powerplay
 
       // go back to powerplay solid colour on timer resume
