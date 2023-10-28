@@ -132,6 +132,7 @@ const callWLED = async (buttonType) => {
 const handlePowerplay = async () => {
   if(isPowerplayRunning.value) return;
 
+  // TODO: update payload
   const payload = { "pl": powerplayType.value === 2 ? 172 : 171 };
   await sendPOSTRequest("state", JSON.stringify(payload));
 
