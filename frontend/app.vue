@@ -26,11 +26,11 @@
       </div>
     </div>
     <div class="section">
-      <span class="section-title">Gameplay</span>
+      <span class="section-title">Buzzer</span>
       <div class="section-body">
         <label class="buzzer-switch">
           <input type="checkbox" v-model="isBuzzerEngaged" @change="handleBuzzer">
-          <span class="buzzer-slider btn-buzzer"></span>
+          <span class="buzzer-slider"></span>
         </label>
       </div>
     </div>
@@ -271,11 +271,6 @@ watch(powerplayTimer, (newVal) => {
     color: var(--text-color-dark); 
 }
 
-.btn-buzzer {
-    background-color: var(--btn-buzzer-bg);
-    color: var(--text-color-light);
-}
-
 .btn-effect {
     background-color: var(--btn-effect-bg);
     color: var(--text-color-dark);
@@ -363,9 +358,8 @@ watch(powerplayTimer, (newVal) => {
 .buzzer-switch {
     position: relative;
     display: inline-block;
-    width: 90px;
-    height: 34px;
-    margin-right: 15vw;
+    width: 20vh;
+    height: 8vh;
 }
 
 .buzzer-switch input { 
@@ -373,25 +367,12 @@ watch(powerplayTimer, (newVal) => {
 }
 
 .buzzer-switch input:checked + .buzzer-slider {
-    background-color: #2196F3;
+  background-color: var(--btn-buzzer-bg);
+  color: var(--text-color-light);
 }
 
 .buzzer-switch input:checked + .buzzer-slider:before {
-    left: 60px;
-    content: "2";
-}
-
-.buzzer-switch input:checked + .buzzer-slider:after {
-    opacity: 0; /* Show it when checked */
-}
-
-.buzzer-switch input:disabled + .buzzer-slider { 
-  background-color: var(--btn-disabled-bg);
-  cursor: not-allowed;
-}
-
-.buzzer-switch input:disabled + .buzzer-slider:before { 
-  background-color: ccc;
+    left: 13vh;
 }
 
 .buzzer-slider {
@@ -400,34 +381,21 @@ watch(powerplayTimer, (newVal) => {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: purple;
-    border-radius: 34px;
+    background-color: grey;
+    border-radius: 8vh;
     transition: .4s;
-    color: var(--text-color-dark);
 }
 
 .buzzer-slider:before{
     position: absolute;
-    height: 26px;
-    width: 26px;
-    line-height: 26px;
+    height: 6vh;
+    width: 6vh;
     background-color: white;
     border-radius: 50%;
     transition: .4s;
     content: "";
-    display: flex;  /* Use flexbox to center the content */
-    align-items: center;  /* Vertical alignment */
-    justify-content: center; 
-    content: "1";
-    left: 4px;
-    bottom: 4px;
-}
-
-.buzzer-slider:after {
-    content: "2";
-    right: 4px;
-    bottom: 4px;
-    opacity: 0; /* Hide it initially */
+    left: 1vh;
+    bottom: 1vh;
 }
 
 /* Adjustments for responsiveness can be added below */
