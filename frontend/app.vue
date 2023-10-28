@@ -58,6 +58,7 @@ const DEFAULT_POWERPLAY_TIMER = 60; // in seconds
 // Frontend bindings
 const powerplayBtnLabel = ref('Start');
 const isPowerplayInputChecked = ref(false); // v-bind to powerplay slide switch
+const isBuzzerEngaged = ref(false); // v-bind to buzzer slide switch
 
 // Computed properties
 // Note: computed properties don't need .value for accessing later
@@ -79,7 +80,8 @@ const buildPayloadForButtonType = (buttonType) => {
     '3Effect': 203,
     '4Effect': 204,
     '5Effect': 205,
-    'buzzer': 200
+    'buzzer': 200, // burst red + red + blackout in 3s
+    'buzzerPowerplay': 199 // burst red + stay red
   };
 
   // return general playlist id if not in powerplay
@@ -144,8 +146,22 @@ const resetPowerplayTimer = () => {
 };
 
 const handleBuzzer = async () => {
-  const payload = { "pl":  200};
-  await sendPOSTRequest("state", JSON.stringify(payload));
+  if (isBuzzerEngaged.value) {
+    if (isPowerplayRunning.value) {
+      // pause timer
+      isPowerplayRunning.value = false;
+      powerplayBtnLabel.value = "Buzzer engaged, timer paused...";
+      clearInterval(powerplayInterval.value);
+
+      // Set lights to long red (until buzzer disengages)
+      await callWLED("buzzerPowerplay");
+    } else {
+      // not a powerplay, call normal buzzer
+      await callWLED("buzzer");
+    }
+  } else {
+    // disengaged
+  }
 }
 
 // Watchers
@@ -296,7 +312,7 @@ watch(powerplayTimer, (newVal) => {
 }
 
 .switch input:checked + .slider {
-    background-color: #2196F3;
+    background-color: rgba(33, 150, 243, 0.8);
 }
 
 .switch input:checked + .slider:before {
@@ -323,7 +339,7 @@ watch(powerplayTimer, (newVal) => {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: purple;
+    background-color: rgba(128,0,128,0.7);
     border-radius: 34px;
     transition: .4s;
     color: var(--text-color-dark);
