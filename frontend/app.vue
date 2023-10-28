@@ -358,6 +358,78 @@ watch(powerplayTimer, (newVal) => {
     opacity: 0; /* Hide it initially */
 }
 
+/* TODO: major refactor of all sliders */
+/* Buzzer Slider - Hacky */
+.buzzer-switch {
+    position: relative;
+    display: inline-block;
+    width: 90px;
+    height: 34px;
+    margin-right: 15vw;
+}
+
+.buzzer-switch input { 
+    display:none;
+}
+
+.buzzer-switch input:checked + .buzzer-slider {
+    background-color: #2196F3;
+}
+
+.buzzer-switch input:checked + .buzzer-slider:before {
+    left: 60px;
+    content: "2";
+}
+
+.buzzer-switch input:checked + .buzzer-slider:after {
+    opacity: 0; /* Show it when checked */
+}
+
+.buzzer-switch input:disabled + .buzzer-slider { 
+  background-color: var(--btn-disabled-bg);
+  cursor: not-allowed;
+}
+
+.buzzer-switch input:disabled + .buzzer-slider:before { 
+  background-color: ccc;
+}
+
+.buzzer-slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: purple;
+    border-radius: 34px;
+    transition: .4s;
+    color: var(--text-color-dark);
+}
+
+.buzzer-slider:before{
+    position: absolute;
+    height: 26px;
+    width: 26px;
+    line-height: 26px;
+    background-color: white;
+    border-radius: 50%;
+    transition: .4s;
+    content: "";
+    display: flex;  /* Use flexbox to center the content */
+    align-items: center;  /* Vertical alignment */
+    justify-content: center; 
+    content: "1";
+    left: 4px;
+    bottom: 4px;
+}
+
+.buzzer-slider:after {
+    content: "2";
+    right: 4px;
+    bottom: 4px;
+    opacity: 0; /* Hide it initially */
+}
+
 /* Adjustments for responsiveness can be added below */
 @media (max-width: 768px) {
   .btn {
