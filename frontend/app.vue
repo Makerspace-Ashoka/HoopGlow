@@ -28,7 +28,10 @@
     <div class="section">
       <span class="section-title">Gameplay</span>
       <div class="section-body">
-        <button class="btn  btn-buzzer" @click="handleBuzzer">Buzzer</button>
+        <label class="buzzer-switch">
+          <input type="buzzer-checkbox" v-model="isBuzzerEngaged" @change="handleBuzzer">
+          <span class="buzzer-slider btn-buzzer"></span>
+        </label>
       </div>
     </div>
     <div class="section">
