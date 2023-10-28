@@ -17,6 +17,15 @@
       </div>
     </div>
     <div class="section">
+      <span class="section-title">Buzzer</span>
+      <div class="section-body">
+        <label class="buzzer-switch">
+          <input type="checkbox" v-model="isBuzzerEngaged" @change="handleBuzzer">
+          <span class="buzzer-slider"></span>
+        </label>
+      </div>
+    </div>
+    <div class="section">
       <span class="section-title">Powerplay</span>
       <div class="section-body">
         <label class="switch">
@@ -24,15 +33,6 @@
           <span class="slider"></span>
         </label>
         <button class="btn btn-start-powerplay" @click="handlePowerplay">{{ powerplayBtnLabel }}</button>
-      </div>
-    </div>
-    <div class="section">
-      <span class="section-title">Buzzer</span>
-      <div class="section-body">
-        <label class="buzzer-switch">
-          <input type="checkbox" v-model="isBuzzerEngaged" @change="handleBuzzer">
-          <span class="buzzer-slider"></span>
-        </label>
       </div>
     </div>
     <div class="section">
@@ -65,7 +65,7 @@
 import { ref, computed, watch } from 'vue';
 
 // Constants
-const IP = "192.168.40.111";
+const IP = "192.168.21.208";
 const DEFAULT_POWERPLAY_TIMER = 60; // in seconds
 
 // Frontend bindings
