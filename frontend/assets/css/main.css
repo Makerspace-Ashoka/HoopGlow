@@ -38,8 +38,9 @@ body::after {
   --btn-1point-bg: #5D2A42;
   --btn-2point-bg: #3a9d8f;
   --btn-3point-bg: #D9F9A5;
-  --btn-buzzer-bg: #E76F51;
   --btn-effect-bg: #FFD639;
+  --btn-buzzer-bg-disengaged: #E76F51;
+  --btn-buzzer-bg-engaged: #B03618;
 
   --btn-start-bg: #D1F5BE;
   --btn-disabled-bg: grey;
