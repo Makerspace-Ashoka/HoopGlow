@@ -29,7 +29,7 @@
       <span class="section-title">Buzzer</span>
       <div class="section-body">
         <label class="buzzer-switch">
-          <input type="checkbox" v-model="isBuzzerEngaged" @change="handleBuzzer">
+          <input type="checkbox" v-model="isBuzzerEngaged" :disabled="buzzerDisabled" @change="handleBuzzer">
           <span class="buzzer-slider"></span>
         </label>
       </div>
@@ -68,6 +68,7 @@ const powerplayType = computed(() => isPowerplayInputChecked.value ? 2: 1);
 const powerplayInterval = ref(null); // use a single instance of interval
 const isPowerplayRunning = ref(false);
 const powerplayTimer = ref(DEFAULT_POWERPLAY_TIMER);
+const buzzerDisabled = ref(false); // only use it to disable before automatically changing buzzer state
 const IS_GAME_NORMAL = ref(true); // only way to resume appropriately from buzzer disengage
 
 // Utility Functions
@@ -171,7 +172,8 @@ const handleBuzzer = async () => {
       // Set lights to long red (until buzzer disengages)
       await callWLED("buzzerPowerplay");
     } else {
-      // TODO: deactivate user actions on buzzer toggle
+      // deactivate user actions on buzzer toggle
+      buzzerDisabled.value = true;
 
       // not a powerplay, call normal buzzer
       await callWLED("buzzer");
@@ -181,6 +183,7 @@ const handleBuzzer = async () => {
       // disengage buzzer in 2s
       setTimeout(() => {
         isBuzzerEngaged.value = false;
+        buzzerDisabled.value = true;
       }, 2000);
     }
   } else {
